@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post" id="reg_form">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text" id="username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="confirmation" placeholder="Password (repeat)" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+
+    <script>
+        $("form").submit(function(e) {
+            e.preventDefault(e);
+
+            let input = document.querySelector("#username").value;
+            $.get("/check?username=" + input, function(isValid) {
+                if (isValid) {
+                    document.getElementById("reg_form").submit();
+                } else {
+                    alert("The username is invalid! Please choose a different one.");
+                }
+            });
+        });
+
+    </script>
+{% endblock %}
